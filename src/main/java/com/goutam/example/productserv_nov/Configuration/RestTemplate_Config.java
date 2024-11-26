@@ -10,6 +10,6 @@ public class RestTemplate_Config {
 
     @Bean
     public RestTemplate getRestTemplate() {
-        return new RestTemplate();
+        return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
     }
 }

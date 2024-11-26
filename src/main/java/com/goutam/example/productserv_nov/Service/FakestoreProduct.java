@@ -21,7 +21,6 @@ public class FakestoreProduct implements Product_Interface{
 
     private RestTemplate restTemplate;
 
-
     public FakestoreProduct(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -65,14 +64,13 @@ public class FakestoreProduct implements Product_Interface{
 
     @Override
     public Product updateproduct(long id, String title, String price, String description, String image, String category) {
-        RestTemplate patchrestTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
         CreateProductDTO updateproduct = new CreateProductDTO();
         updateproduct.setTitle(title);
         updateproduct.setPrice(Double.parseDouble(price));
         updateproduct.setDescription(description);
         updateproduct.setImage(image);
         updateproduct.setCategory(category);
-        Fakestore_ProductDTO fakestoreProductDTO = patchrestTemplate.patchForObject("https://fakestoreapi.com/products/"+id ,
+        Fakestore_ProductDTO fakestoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/"+id ,
                                                                                     updateproduct,
                                                                                     Fakestore_ProductDTO.class);
         return fakestoreProductDTO.toProduct(fakestoreProductDTO);
