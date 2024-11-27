@@ -84,4 +84,26 @@ public class FakestoreProduct implements Product_Interface{
 
         return responseEntity.getBody().toProduct(responseEntity.getBody());
     }
+
+    @Override
+    public List<Product> limitproduct(long count) {
+
+        Fakestore_ProductDTO[] fakestoreProductDTOS =restTemplate.
+                getForObject("https://fakestoreapi.com/products?limit="+count, Fakestore_ProductDTO[].class);
+        List<Product> products = new ArrayList<>();
+        for(Fakestore_ProductDTO productDTO : fakestoreProductDTOS){
+            products.add(productDTO.toProduct(productDTO));
+        }
+        return products;
+    }
+    @Override
+    public List<Product> sortproduct(String order){
+        Fakestore_ProductDTO[] fakestoreProductDTOS = restTemplate.
+                getForObject("https://fakestoreapi.com/products?sort="+order, Fakestore_ProductDTO[].class);
+        List<Product> products = new ArrayList<>();
+        for(Fakestore_ProductDTO productDTO : fakestoreProductDTOS){
+            products.add(productDTO.toProduct(productDTO));
+        }
+        return products;
+    }
 }

@@ -15,4 +15,6 @@ public interface Product_Interface {
     public List<Product> getallproduct();
     public Product updateproduct(long id, String title, String price, String description, String image, String category);
     public Product deleteproduct(long id);
+    public List<Product> limitproduct(long limit);
+    public List<Product> sortproduct(String order);
 }

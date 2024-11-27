@@ -64,4 +64,13 @@ public class Product_Controller {
         return product_interface.deleteproduct(id);
     }
 
+    @GetMapping("/products/limit={count}")
+    public List<Product> limitproduct(@PathVariable("count") long count){
+        return product_interface.limitproduct(count);
+    }
+    @GetMapping("/products/sort={order}")
+    public List<Product> sortproduct(@PathVariable("order") String order){
+        return product_interface.sortproduct(order);
+    }
+
 }
