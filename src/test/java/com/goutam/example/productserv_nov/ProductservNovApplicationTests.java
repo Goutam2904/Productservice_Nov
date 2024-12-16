@@ -1,22 +1,24 @@
-//package com.goutam.example.productserv_nov;
-//
-//import com.goutam.example.productserv_nov.Model.Category;
-//import com.goutam.example.productserv_nov.Model.Product;
-//import com.goutam.example.productserv_nov.Repository.Category_Repo;
-//import com.goutam.example.productserv_nov.Repository.Product_Repo;
-//import com.goutam.example.productserv_nov.Repository.Projection.Product_Projection_title_desc;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.transaction.annotation.Transactional;
-//
-//import java.util.Date;
-//import java.util.List;
-//import java.util.Optional;
-//
-//@SpringBootTest
-//class ProductservNovApplicationTests {
+package com.goutam.example.productserv_nov;
+
+import com.goutam.example.productserv_nov.Model.Category;
+import com.goutam.example.productserv_nov.Model.Product;
+import com.goutam.example.productserv_nov.Repository.Category_Repo;
+import com.goutam.example.productserv_nov.Repository.Product_Repo;
+import com.goutam.example.productserv_nov.Repository.Projection.Product_Projection_title_desc;
+import org.apache.coyote.Response;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestReporter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@SpringBootTest
+class ProductservNovApplicationTests {
 //
 //    @Autowired
 //    private Product_Repo product_Repo;
@@ -128,5 +130,6 @@
 //        Optional<Category> category = category_Repo.findById(1l);
 //        System.out.println(category.get().getCategoryName());
 //    }
-//    }
-//
+
+    }
+

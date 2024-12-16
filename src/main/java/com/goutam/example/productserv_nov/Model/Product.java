@@ -8,26 +8,28 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.engine.internal.Cascade;
 
-//@Getter
-//@Setter
-//@Entity
-//public class Product extends BaseModel{
-//    private String name;
-//    private String description;
-//    private double price;
-//    private String imageurl;
-//
-//    @ManyToOne(cascade = {CascadeType.PERSIST})
-//    private Category category;
-//}
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class Product {
-    private long id;
+@Entity
+public class Product extends BaseModel implements Serializable {
     private String name;
     private String description;
     private double price;
     private String imageurl;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Category category;
 }
+//
+//@Getter
+//@Setter
+//public class Product {
+//    private long id;
+//    private String name;
+//    private String description;
+//    private double price;
+//    private String imageurl;
+//    private Category category;
+//}

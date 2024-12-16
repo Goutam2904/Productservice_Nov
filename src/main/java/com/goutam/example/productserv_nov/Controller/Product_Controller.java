@@ -19,7 +19,7 @@ public class Product_Controller {
 
     private Product_Interface product_interface;
 
-    public Product_Controller(@Qualifier("Fakestoreproduct") Product_Interface product_interface) {
+    public Product_Controller(@Qualifier("DBservice") Product_Interface product_interface) {
         this.product_interface = product_interface;
     }
 

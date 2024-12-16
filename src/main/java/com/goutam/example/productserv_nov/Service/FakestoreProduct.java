@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Service("Fakestoreproduct")
+@Service("Fakestore")
 public class FakestoreProduct implements Product_Interface{
 
     private RestTemplate restTemplate;
