@@ -12,7 +12,7 @@ public class Controller_Advice {
     @ExceptionHandler(Productnotfound.class)
     public ResponseEntity Exceptionmessage(){
         ErrorDTO errorDTO = new ErrorDTO("Product not found");
-        ResponseEntity<ErrorDTO> responseEntity = new ResponseEntity<>(errorDTO, HttpStatusCode.valueOf(500));
+        ResponseEntity<ErrorDTO> responseEntity = new ResponseEntity<>(errorDTO, HttpStatusCode.valueOf(404));
         return responseEntity;
     }
 }

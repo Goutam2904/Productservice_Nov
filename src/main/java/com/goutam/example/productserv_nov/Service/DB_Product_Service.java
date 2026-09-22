@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -30,12 +31,12 @@ public class DB_Product_Service implements Product_Interface{
     public Product getproductbyid(long id) throws Productnotfound {
 
         Product redisproduct = (Product) redisTemplate.opsForValue().get(String.valueOf(id));
-        if (redisproduct != null) {
+        if (redisproduct != null && !Boolean.TRUE.equals(redisproduct.getIsdeleted())) {
             return redisproduct;
         }
         Product product = product_Repo.findById(id);
 
-        if(product == null){
+        if (product == null || Boolean.TRUE.equals(product.getIsdeleted())) {
             throw new Productnotfound("Product Not Found");
         }
         redisTemplate.opsForValue().set(String.valueOf(id), product);
@@ -65,27 +66,75 @@ public class DB_Product_Service implements Product_Interface{
 
     @Override
     public List<Product> getallproduct() {
-        List<Product> products = product_Repo.findAll();
-        return products;
+        return product_Repo.findAll().stream()
+                .filter(product -> !Boolean.TRUE.equals(product.getIsdeleted()))
+                .toList();
     }
 
     @Override
     public Product updateproduct(long id, String title, String price, String description, String image, String category) {
-        return null;
+        Product product = product_Repo.findById(id);
+        if (product == null || Boolean.TRUE.equals(product.getIsdeleted())) {
+            throw new Productnotfound("Product Not Found");
+        }
+
+        product.setName(title);
+        product.setPrice(Double.parseDouble(price));
+        product.setDescription(description);
+        product.setImageurl(image);
+        product.setCategory(resolveCategory(category));
+        product.setUpdatedAt(new java.util.Date());
+
+        Product savedProduct = product_Repo.save(product);
+        redisTemplate.delete(String.valueOf(id));
+        return savedProduct;
     }
 
     @Override
     public Product deleteproduct(long id) {
-        return null;
+        Product product = product_Repo.findById(id);
+        if (product == null || Boolean.TRUE.equals(product.getIsdeleted())) {
+            throw new Productnotfound("Product Not Found");
+        }
+
+        product.setIsdeleted(true);
+        product.setUpdatedAt(new java.util.Date());
+        Product deletedProduct = product_Repo.save(product);
+        redisTemplate.delete(String.valueOf(id));
+        return deletedProduct;
     }
 
     @Override
     public List<Product> limitproduct(long limit) {
-        return List.of();
+        if (limit <= 0) {
+            return List.of();
+        }
+        return getallproduct().stream()
+                .limit(limit)
+                .toList();
     }
 
     @Override
     public List<Product> sortproduct(String order) {
-        return List.of();
+        Comparator<Product> comparator = Comparator.comparing(Product::getPrice);
+        if ("desc".equalsIgnoreCase(order)) {
+            comparator = comparator.reversed();
+        } else if (!"asc".equalsIgnoreCase(order)) {
+            return List.of();
+        }
+        return getallproduct().stream()
+                .sorted(comparator)
+                .toList();
+    }
+
+    private Category resolveCategory(String category) {
+        Category existingCategory = category_Repo.findByCategoryName(category);
+        if (existingCategory != null) {
+            return existingCategory;
+        }
+
+        Category newCategory = new Category();
+        newCategory.setCategoryName(category);
+        return newCategory;
     }
 }
